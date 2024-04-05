@@ -1,8 +1,12 @@
+use constants::app::AppConst;
 use serde::{Deserialize};
 use std::{borrow::Borrow, error::Error};
 
+mod constants;
+
+
 #[derive(Debug, Deserialize)]
-struct WeatherResponseMain {
+struct WeatherMain {
     temp: f64,
     feels_like: f64,
     temp_min: f64,
@@ -19,7 +23,7 @@ struct Weather {
 
 #[derive(Debug, Deserialize)]
 struct WeatherResponse {
-    main: WeatherResponseMain,
+    main: WeatherMain,
     weather: Vec<Weather>,
 }
 
@@ -31,12 +35,11 @@ struct RequestError {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let api_key = "6b15677169a1ea1d3cc026022fec71ef";
     let city_name = std::env::args().nth(1).expect("You need in put city");
     // let city_name = "Hanoi";
     let url = format!(
         "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=metric",
-        city_name, api_key
+        city_name, AppConst::API_KEY
     );
 
     let response = reqwest::get(&url).await;
