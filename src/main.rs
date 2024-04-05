@@ -2,7 +2,7 @@ use serde::{Deserialize};
 use std::{borrow::Borrow, error::Error};
 
 #[derive(Debug, Deserialize)]
-struct Main {
+struct WeatherResponseMain {
     temp: f64,
     feels_like: f64,
     temp_min: f64,
@@ -19,7 +19,7 @@ struct Weather {
 
 #[derive(Debug, Deserialize)]
 struct WeatherResponse {
-    main: Main,
+    main: WeatherResponseMain,
     weather: Vec<Weather>,
 }
 
@@ -52,7 +52,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         } else {
             let body = res.text().await.unwrap();
             let response_body: RequestError = serde_json::from_str(&body)?;
-            println!("Request result:{}", response_body.message);
+            println!("Request result: {}", response_body.message);
         }
     } else {
         println!("Check your internet line and try again!");
