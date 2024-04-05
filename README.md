@@ -3,8 +3,8 @@
 
 ### Running Server
 
-```sh
-cargo build
+``` Build
+    Run: cargo build
 
 ```Get weather success
     Run: ./target/debug/weather Hanoi
