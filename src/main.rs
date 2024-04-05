@@ -36,11 +36,8 @@ struct RequestError {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let city_name = std::env::args().nth(1).expect("You need in put city");
-    // let city_name = "Hanoi";
-    let url = format!(
-        "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=metric",
-        city_name, AppConst::API_KEY
-    );
+
+    let url = AppConst::OPEN_WEATHER_API.replace("{city}", &city_name).replace("{api_key}", AppConst::API_KEY);
 
     let response = reqwest::get(&url).await;
  
