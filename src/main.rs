@@ -1,6 +1,8 @@
 use constants::app::AppConst;
 use serde::{Deserialize};
-use std::{borrow::Borrow, error::Error};
+use std::{error::Error};
+#[macro_use] extern crate prettytable;
+use prettytable::{color, Attr, Cell, Row, Table};
 
 mod constants;
 
@@ -45,10 +47,29 @@ async fn main() -> Result<(), Box<dyn Error>> {
         if res.status().is_success() {
             let body = res.text().await.unwrap();
             let weather_response: WeatherResponse = serde_json::from_str(&body)?;
-            println!("Temperature: {}°C", weather_response.main.temp);
-            println!("Feels like: {}°C", weather_response.main.feels_like);
-            println!("Description: {}", weather_response.weather[0].description);
 
+             // Create the table
+            let mut table = Table::new();
+            // Add a row per time
+                table.add_row(Row::new(vec![
+                    Cell::new(&format!("Weather in {} Today!", city_name)).style_spec("c").with_style(Attr::Bold)
+                    .with_style(Attr::ForegroundColor(color::GREEN))
+                    .with_hspan(2)
+                ]));
+
+            table.add_row(row!["Temperature", weather_response.main.temp]);
+            table.add_row(row!["Feels like", weather_response.main.feels_like]);
+
+            table.add_row(row!["Temperature Min", weather_response.main.temp_min]);
+            table.add_row(row!["Temperature Max", weather_response.main.temp_max]);
+
+            table.add_row(row!["Pressure", weather_response.main.pressure]);
+            table.add_row(row!["humidity", weather_response.main.humidity]);
+            table.add_row(row!["Description", weather_response.weather[0].description]);
+         
+
+            // Print the table to stdout
+            table.printstd();
         } else {
             let body = res.text().await.unwrap();
             let response_body: RequestError = serde_json::from_str(&body)?;

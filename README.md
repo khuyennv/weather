@@ -6,9 +6,23 @@
 ## Get weather success
     Run: ./target/debug/weather Hanoi
     Result:
-        Temperature: 27°C
-        Feels like: 29.93°C
-        Description: overcast clouds
+        +-----------------+-----------------+
+        |      Weather in Hanoi Today!      |
+        +-----------------+-----------------+
+        | Temperature     | 28              |
+        +-----------------+-----------------+
+        | Feels like      | 32.25           |
+        +-----------------+-----------------+
+        | Temperature Min | 28              |
+        +-----------------+-----------------+
+        | Temperature Max | 28              |
+        +-----------------+-----------------+
+        | Pressure        | 1009            |
+        +-----------------+-----------------+
+        | humidity        | 81              |
+        +-----------------+-----------------+
+        | Description     | overcast clouds |
+        +-----------------+-----------------+
 
 ## Get weather error
     Run: ./target/debug/weather Hanoi123
